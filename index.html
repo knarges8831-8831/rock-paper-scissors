@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی سنگ کاغذ قیچی</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="game">
+        <h1>🎮 سنگ، کاغذ، قیچی</h1>
+
+        <div class="scoreboard">
+            <div class="score-box">
+                <span class="label">شما</span>
+                <span class="value" id="playerScore">0</span>
+            </div>
+            <div class="score-box">
+                <span class="label">مساوی</span>
+                <span class="value" id="drawScore">0</span>
+            </div>
+            <div class="score-box">
+                <span class="label">کامپیوتر</span>
+                <span class="value" id="computerScore">0</span>
+            </div>
+        </div>
+
+        <div class="result">
+            <div class="choices-display" id="choicesDisplay">❔ ❔</div>
+            <div class="message" id="message">انتخاب کن!</div>
+        </div>
+
+        <div class="buttons">
+            <button class="choice-btn" data-choice="rock" title="سنگ">✊</button>
+            <button class="choice-btn" data-choice="paper" title="کاغذ">✋</button>
+            <button class="choice-btn" data-choice="scissors" title="قیچی">✌️</button>
+        </div>
+
+        <button class="reset-btn" id="resetBtn">شروع دوباره</button>
+
+        <div class="rules">
+            ✊ سنگ قیچی را می‌شکند | ✋ کاغذ سنگ را می‌پوشاند | ✌️ قیچی کاغذ را می‌برد
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
