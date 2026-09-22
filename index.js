@@ -16,6 +16,9 @@ let playerScore = 0;
 let computerScore = 0;
 let drawScore = 0;
 let roundInProgress = false;
+let playerWin = false;
+let computerWin = false;
+let gameOver = false; // فلگ جدید برای پایان بازی
 
 function getComputerChoice() {
     const keys = Object.keys(choices);
@@ -23,14 +26,13 @@ function getComputerChoice() {
 }
 
 function playRound(playerChoice) {
-    if (roundInProgress) return;
+    if (roundInProgress || gameOver) return; // اگه بازی تموم شده، کاری نکن
     roundInProgress = true;
 
     choiceButtons.forEach(btn => btn.disabled = true);
 
     const computerChoice = getComputerChoice();
 
-    // انیمیشن کوتاه
     let count = 0;
     const interval = setInterval(() => {
         choicesDisplay.textContent = '❔ ❔';
@@ -53,22 +55,31 @@ function showResult(playerChoice, computerChoice) {
 
     if (playerChoice === computerChoice) {
         drawScore++;
-        message = 'مساوی! 🤝';
+        message = 'مساوی شدیم! 🤝';
         className = 'draw';
     } else if (player.beats === computerChoice) {
         playerScore++;
-        message = 'بردی! 🎉';
+        message = 'یکی به نفع تو! 🎉';
         className = 'win';
     } else {
         computerScore++;
-        message = 'باختی! 😢';
+        message = 'یکی به نفع من! 😢';
         className = 'lose';
     }
+
+    if (playerScore === 3) playerWin = true;
+    if (computerScore === 3) computerWin = true;
 
     messageEl.textContent = message;
     messageEl.className = 'message ' + className;
 
     updateScores();
+
+    if (playerWin || computerWin) {
+        gameOver = true;
+        winGame();
+        return; // دیگه دکمه‌ها رو فعال نکن
+    }
 
     setTimeout(() => {
         roundInProgress = false;
@@ -87,6 +98,10 @@ function resetGame() {
     computerScore = 0;
     drawScore = 0;
     roundInProgress = false;
+    playerWin = false;
+    computerWin = false;
+    gameOver = false;
+
     updateScores();
     choicesDisplay.textContent = '❔ ❔';
     messageEl.textContent = 'انتخاب کن!';
@@ -99,3 +114,15 @@ choiceButtons.forEach(btn => {
 });
 
 resetBtn.addEventListener('click', resetGame);
+
+function winGame() {
+    if (computerWin) {
+        messageEl.textContent = 'تو باختی! 😢';
+        messageEl.className = 'message lose';
+    } else if (playerWin) {
+        messageEl.textContent = 'تو بردی! 🎉';
+        messageEl.className = 'message win';
+    }
+    // دکمه‌ها غیرفعال می‌مونن تا کاربر Reset بزنه
+    choiceButtons.forEach(btn => btn.disabled = true);
+}
